@@ -1,29 +1,47 @@
 # Accountability Reward Tracker
 
-A productivity system that converts your goal documents into daily tasks using AI, tracks completion with points and streaks, and lets you redeem custom rewards. Inspired by the Strava motivation loop.
+> Turn your plans into daily wins. Upload your goals, let AI break them into actionable tasks, track your progress with streaks & points, and reward yourself for staying consistent.
 
-**Core flow:** Upload Plan → AI extracts tasks → Daily checklist → Complete tasks → Points & streaks → Redeem rewards
+**[Live Demo](https://accgoals.vercel.app)**
+
+![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
+![Supabase](https://img.shields.io/badge/Supabase-Database%20%26%20Auth-3ECF8E?logo=supabase)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-38B2AC?logo=tailwindcss)
+![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000?logo=vercel)
+
+## How It Works
+
+1. **Upload Your Plan** — Drop a `.txt`, `.md`, or `.pdf` file containing your goals
+2. **AI Extracts Tasks** — The LLM intelligently parses your plan into structured daily tasks with difficulty ratings
+3. **Daily Checklist** — Check off tasks as you complete them, navigate between dates, add ad-hoc tasks
+4. **Earn Points & Streaks** — Every completed task earns points (5/10/20 based on difficulty). Complete at least one task daily to build your streak
+5. **Redeem Rewards** — Define your own rewards (Netflix night, new gadget, day off) and redeem them with earned points
 
 ## Features
 
-- **Google OAuth** — Sign in with Google
-- **Plan Upload** — Upload `.txt`, `.md`, or `.pdf` goal files
-- **AI Task Extraction** — LLM parses your plan into structured daily tasks (with manual editing fallback)
-- **Daily Checklist** — Check off tasks, navigate by date, add ad-hoc tasks
-- **Points System** — Earn points per task (5/10/20 based on difficulty)
-- **Custom Rewards** — Define rewards and redeem them with earned points
-- **Streak Tracking** — Current and longest streak with daily consistency tracking
-- **Analytics Dashboard** — GitHub-style activity heatmap, weekly progress chart, points growth chart
-- **Weekly Milestone Notifications** — Celebratory banner at every 7-day streak milestone
+- **Google OAuth** — One-click sign in with Google
+- **AI-Powered Task Extraction** — Upload a plan and let AI do the heavy lifting (with manual editing fallback)
+- **Smart Daily Checklist** — Date-navigable checklist with real-time completion tracking
+- **Points System** — Earn 5/10/20 points per task based on Easy/Medium/Hard difficulty
+- **Custom Rewards** — Define your own rewards and redeem them with earned points
+- **Streak Tracking** — Current streak, longest streak, and daily consistency tracking
+- **Analytics Dashboard** — GitHub-style activity heatmap, weekly progress chart, and points growth graph
+- **Weekly Milestones** — Celebratory banners at every 7-day streak milestone
+- **Fully Responsive** — Works seamlessly on desktop and mobile
+- **Animated Landing Page** — Framer Motion animations with glassmorphic UI elements
 
 ## Tech Stack
 
-- **Frontend + Backend:** Next.js 16 (App Router, API Routes)
-- **Database + Auth + Storage:** Supabase (Postgres, Google OAuth, file storage)
-- **AI:** OpenRouter (Gemma 3N free tier) with Gemini Flash fallback
-- **Styling:** Tailwind CSS
-- **Charts:** Recharts
-- **Deployment:** Vercel
+| Layer | Technology |
+|-------|-----------|
+| **Framework** | Next.js 16 (App Router, API Routes) |
+| **Database & Auth** | Supabase (Postgres, Google OAuth, File Storage) |
+| **AI** | OpenRouter (Gemma 3N) + Google Gemini Flash fallback |
+| **Styling** | Tailwind CSS 4 + shadcn/ui |
+| **Animations** | Framer Motion |
+| **Charts** | Recharts |
+| **Fonts** | Inter + Outfit (Google Fonts) |
+| **Deployment** | Vercel |
 
 ## Getting Started
 
@@ -55,7 +73,7 @@ A productivity system that converts your goal documents into daily tasks using A
    cp .env.local.example .env.local
    ```
    Fill in:
-   ```
+   ```env
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
    SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
@@ -74,18 +92,22 @@ A productivity system that converts your goal documents into daily tasks using A
 1. Push to GitHub
 2. Connect the repo to [Vercel](https://vercel.com)
 3. Add the environment variables in Vercel dashboard
-4. Update the Supabase Site URL and redirect URLs to your production domain
+4. Update the Supabase **Site URL** and **Redirect URLs** to your production domain
 
 ## Project Structure
 
 ```
 src/
   app/
-    page.tsx                    # Landing page
+    page.tsx                    # Animated landing page
+    demo/                       # Demo signup page
     auth/                       # Login + OAuth callback
     dashboard/                  # Dashboard, upload, checklist, rewards, analytics
     api/                        # API routes (upload, parse, tasks, rewards, analytics)
-  components/                   # UI components
+  components/
+    ui/                         # Reusable UI components (button, input, checkboxes, background-paths)
+    dashboard/                  # Dashboard-specific components (nav-sidebar, stats-bar)
+    analytics/                  # Chart components (heatmap, weekly-chart, points-chart)
   lib/
     supabase/                   # Supabase client configs
     gemini.ts                   # LLM integration (OpenRouter + Gemini)
@@ -98,9 +120,16 @@ supabase/
 ## Database Schema
 
 6 tables with Row Level Security:
-- `plans` — Uploaded plan files
-- `tasks` — Daily tasks with completion status
-- `points_ledger` — Append-only points transaction log
-- `rewards` — User-defined rewards
-- `reward_redemptions` — Redemption history
-- `streaks` — Per-user streak tracking
+
+| Table | Purpose |
+|-------|---------|
+| `plans` | Uploaded plan files |
+| `tasks` | Daily tasks with completion status |
+| `points_ledger` | Append-only points transaction log |
+| `rewards` | User-defined rewards |
+| `reward_redemptions` | Redemption history |
+| `streaks` | Per-user streak tracking |
+
+## License
+
+MIT
