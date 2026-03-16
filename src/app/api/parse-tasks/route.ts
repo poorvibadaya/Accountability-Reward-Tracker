@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 async function extractPdfText(buffer: Buffer): Promise<string> {
   // pdf-parse v1 tries to read a test file on import, so we must
   // import the inner module directly to avoid that behavior
+  // @ts-expect-error Type declarations missing for pdf-parse/lib/pdf-parse.js
   const { default: pdfParse } = await import("pdf-parse/lib/pdf-parse.js");
   const data = await pdfParse(buffer);
   return data.text;

@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const features = [
   {
@@ -9,6 +12,7 @@ const features = [
     ),
     title: "Upload Your Plan",
     description: "Upload your goals in .txt, .md, or .pdf format. Our AI extracts actionable daily tasks automatically.",
+    image: "https://images.unsplash.com/photo-1512314889357-e157c22f938d?q=80&w=800&auto=format&fit=crop"
   },
   {
     icon: (
@@ -18,6 +22,7 @@ const features = [
     ),
     title: "Daily Checklist",
     description: "See your tasks for today and check them off as you complete them. Stay focused on what matters.",
+    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=800&auto=format&fit=crop"
   },
   {
     icon: (
@@ -27,6 +32,7 @@ const features = [
     ),
     title: "Earn Points",
     description: "Every completed task earns you points based on difficulty. Watch your score grow as you stay consistent.",
+    image: ""
   },
   {
     icon: (
@@ -36,6 +42,7 @@ const features = [
     ),
     title: "Build Streaks",
     description: "Complete at least one task daily to keep your streak alive. Track your current and longest streaks.",
+    image: ""
   },
   {
     icon: (
@@ -45,6 +52,7 @@ const features = [
     ),
     title: "Redeem Rewards",
     description: "Define your own rewards and redeem them with earned points. Netflix night? New gadget? You decide.",
+    image: "https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=800&auto=format&fit=crop"
   },
   {
     icon: (
@@ -54,125 +62,267 @@ const features = [
     ),
     title: "Visual Analytics",
     description: "GitHub-style heatmaps, weekly progress charts, and points growth graphs to visualize your journey.",
+    image: ""
   },
 ];
 
 const steps = [
-  { step: "1", title: "Upload", description: "Drop your plan file and AI extracts your tasks" },
-  { step: "2", title: "Check Off", description: "Complete daily tasks and earn points" },
-  { step: "3", title: "Get Rewarded", description: "Redeem points for rewards you define" },
+  { step: "1", title: "Upload", description: "Drop your plan file and AI extracts your tasks", color: "from-blue-500 to-cyan-400" },
+  { step: "2", title: "Check Off", description: "Complete daily tasks and earn points", color: "from-violet-500 to-purple-400" },
+  { step: "3", title: "Get Rewarded", description: "Redeem points for rewards you define", color: "from-amber-400 to-orange-500" },
 ];
 
 export default function LandingPage() {
+  const fadeIn = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }
+    }
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15
+      }
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-      {/* Nav */}
-      <nav className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-primary/20">
+
+      {/* Navbar - Fixed and blurred */}
+      <nav className="fixed top-0 inset-x-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50">
+        <div className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+              <svg className="w-5 h-5 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <span className="font-heading font-extrabold text-2xl tracking-tight text-foreground">AccTracker</span>
           </div>
-          <span className="font-bold text-xl text-gray-900">AccTracker</span>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/auth/login"
+              className="px-5 py-2.5 text-sm font-semibold text-foreground hover:text-primary transition-colors"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/demo"
+              className="px-5 py-2.5 bg-primary text-primary-foreground text-sm rounded-lg font-semibold hover:bg-primary/90 transition-all shadow-md shadow-primary/20 hover:scale-105 active:scale-95"
+            >
+              Get Started
+            </Link>
+          </div>
         </div>
-        <Link
-          href="/auth/login"
-          className="px-5 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors"
-        >
-          Get Started
-        </Link>
       </nav>
 
-      {/* Hero */}
-      <section className="max-w-7xl mx-auto px-6 pt-20 pb-16 text-center">
-        <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight">
-          Turn Your Plans Into
-          <span className="text-indigo-600"> Daily Wins</span>
-        </h1>
-        <p className="mt-6 text-xl text-gray-600 max-w-2xl mx-auto">
-          Upload your goals, let AI break them into tasks, check them off daily,
-          earn points, and reward yourself. The accountability system that actually
-          keeps you going.
-        </p>
-        <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            href="/auth/login"
-            className="px-8 py-4 bg-indigo-600 text-white rounded-xl font-semibold text-lg hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200"
-          >
-            Start Free Today
-          </Link>
-          <a
-            href="#features"
-            className="px-8 py-4 bg-white text-gray-700 rounded-xl font-semibold text-lg hover:bg-gray-50 transition-colors border border-gray-200"
-          >
-            See Features
-          </a>
-        </div>
+      {/* Hero Section */}
+      <section className="relative pt-36 pb-20 px-6 max-w-7xl mx-auto flex flex-col items-center text-center">
+        {/* Background ambient glow */}
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 blur-[100px] rounded-full poiter-events-none -z-10"></div>
+
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          className="max-w-4xl flex flex-col items-center"
+        >
+          <motion.div variants={fadeIn} className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 text-primary text-sm font-semibold tracking-wide uppercase mb-8">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            Meet Your New Accountability Partner
+          </motion.div>
+
+          <motion.h1 variants={fadeIn} className="text-5xl md:text-7xl lg:text-8xl font-heading font-extrabold tracking-tight mb-8 leading-[1.05] text-foreground">
+            Turn Your Plans <br className="hidden sm:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-indigo-500">
+              Into Daily Wins
+            </span>
+          </motion.h1>
+
+          <motion.p variants={fadeIn} className="text-xl md:text-2xl text-muted-foreground max-w-2xl mb-12 font-light leading-relaxed">
+            Upload your goals, let AI intelligently break them into actionable tasks, and stay motivated to celebrate every step forward.
+          </motion.p>
+
+          <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+            <Link
+              href="/demo"
+              className="px-8 py-4 bg-foreground text-background rounded-xl font-semibold text-lg hover:bg-foreground/90 transition-all shadow-xl hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2"
+            >
+              Start for free
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+            </Link>
+            <a
+              href="#features"
+              className="px-8 py-4 bg-secondary text-secondary-foreground rounded-xl font-semibold text-lg hover:bg-secondary/80 transition-all border border-border flex items-center justify-center"
+            >
+              See how it works
+            </a>
+          </motion.div>
+        </motion.div>
+
+        {/* Hero Image */}
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-20 w-full relative rounded-[2.5rem] p-3 bg-gradient-to-b from-border to-transparent shadow-2xl"
+        >
+          <div className="absolute inset-x-10 -top-px h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+          <div className="rounded-[2rem] overflow-hidden bg-muted aspect-video relative group">
+            <img
+              src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=2940&auto=format&fit=crop"
+              alt="App Dashboard Preview"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            {/* Overlay to simulate app UI feeling */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+          </div>
+        </motion.div>
       </section>
 
       {/* How it works */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-          How It Works
-        </h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {steps.map((s) => (
-            <div key={s.step} className="text-center">
-              <div className="inline-flex items-center justify-center w-14 h-14 bg-indigo-100 text-indigo-600 rounded-full text-2xl font-bold mb-4">
-                {s.step}
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">{s.title}</h3>
-              <p className="text-gray-600">{s.description}</p>
-            </div>
-          ))}
+      <section className="bg-secondary/30 py-32 border-y border-border/50">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+            className="text-center max-w-3xl mx-auto mb-20"
+          >
+            <motion.h2 variants={fadeIn} className="text-4xl md:text-5xl font-heading font-bold mb-6">
+              Three Steps to Success
+            </motion.h2>
+            <motion.p variants={fadeIn} className="text-xl text-muted-foreground leading-relaxed">
+              We've abstracted the complexity so you can focus strictly on what matters most: doing the work.
+            </motion.p>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+            className="grid md:grid-cols-3 gap-8 reltative"
+          >
+            {steps.map((s, i) => (
+              <motion.div variants={fadeIn} key={s.step} className="relative group">
+                <div className="bg-card border border-border rounded-3xl p-8 hover:shadow-xl hover:border-primary/20 transition-all duration-300 h-full">
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-white font-bold text-xl mb-6 bg-gradient-to-br ${s.color} shadow-lg shadow-primary/20`}>
+                    {s.step}
+                  </div>
+                  <h3 className="text-2xl font-heading font-semibold mb-3">{s.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{s.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
-      {/* Features */}
-      <section id="features" className="max-w-7xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-          Everything You Need to Stay on Track
-        </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature) => (
-            <div
+      {/* Features bento grid */}
+      <section id="features" className="py-32 max-w-7xl mx-auto px-6">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+          className="text-center max-w-3xl mx-auto mb-20"
+        >
+          <motion.h2 variants={fadeIn} className="text-4xl md:text-5xl font-heading font-bold mb-6">
+            Everything You Need
+          </motion.h2>
+          <motion.p variants={fadeIn} className="text-xl text-muted-foreground">
+            A complete ecosystem to ensure your goals turn into daily realities.
+          </motion.p>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          {features.map((feature, i) => (
+            <motion.div
+              variants={fadeIn}
               key={feature.title}
-              className="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+              className={`group p-8 bg-card rounded-[2.5rem] border border-border shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col ${feature.image ? 'md:col-span-2 lg:col-span-2 row-span-2' : ''}`}
             >
-              <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 mb-4">
+              <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-6 transition-transform group-hover:scale-110">
                 {feature.icon}
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-2xl font-heading font-semibold mb-3">
                 {feature.title}
               </h3>
-              <p className="text-gray-600">{feature.description}</p>
-            </div>
+              <p className="text-muted-foreground text-lg leading-relaxed mb-6 flex-grow">{feature.description}</p>
+
+              {feature.image && (
+                <div className="mt-auto w-full h-48 sm:h-64 rounded-2xl overflow-hidden relative">
+                  <img src={feature.image} alt={feature.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <div className="absolute inset-0 border border-black/5 rounded-2xl"></div>
+                </div>
+              )}
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* CTA */}
-      <section className="max-w-4xl mx-auto px-6 py-20 text-center">
-        <div className="bg-indigo-600 rounded-3xl p-12">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to Crush Your Goals?
-          </h2>
-          <p className="text-indigo-100 text-lg mb-8">
-            Join now and start turning your plans into achievements. It&apos;s free.
-          </p>
-          <Link
-            href="/auth/login"
-            className="inline-block px-8 py-4 bg-white text-indigo-600 rounded-xl font-semibold text-lg hover:bg-indigo-50 transition-colors"
-          >
-            Get Started Free
-          </Link>
-        </div>
+      <section className="max-w-5xl mx-auto px-6 pb-32 text-center">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeIn}
+          className="relative bg-foreground text-background rounded-[3rem] p-16 overflow-hidden shadow-2xl"
+        >
+          {/* Decorative glows */}
+          <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-primary/20 blur-[100px] rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
+
+          <div className="relative z-10 max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-6xl font-heading font-bold mb-6 tracking-tight">
+              Ready to Crush Your Goals?
+            </h2>
+            <p className="text-background/80 text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+              Join thousands of people who have significantly increased their daily output by rewarding themselves deliberately.
+            </p>
+            <Link
+              href="/demo"
+              className="inline-flex items-center justify-center px-10 py-5 bg-background text-foreground rounded-2xl font-bold text-lg hover:scale-105 active:scale-95 transition-all shadow-xl"
+            >
+              Start For Free Today
+            </Link>
+          </div>
+        </motion.div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-100 py-8 text-center text-gray-500 text-sm">
-        <p>Accountability Reward Tracker. Built with consistency in mind.</p>
+      <footer className="border-t border-border/50 bg-secondary/20 py-12">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <svg className="w-4 h-4 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <span className="font-heading font-bold text-xl tracking-tight text-foreground">AccTracker</span>
+          </div>
+          <p className="text-muted-foreground font-medium text-sm">
+            © {new Date().getFullYear()} Accountability Reward Tracker. Built with consistency in mind.
+          </p>
+        </div>
       </footer>
     </div>
   );
